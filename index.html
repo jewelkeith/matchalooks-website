@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en-us"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Matcha Looks</title><meta name="generator" content="Publii Open-Source CMS for Static Site"><link rel="canonical" href="https://matchalooks.com/"><link rel="alternate" type="application/atom+xml" href="https://matchalooks.com/feed.xml" title="Matcha Looks - RSS"><link rel="alternate" type="application/json" href="https://matchalooks.com/feed.json" title="Matcha Looks - JSON"><meta property="og:title" content="Matcha Looks"><meta property="og:image" content="https://matchalooks.com/media/website/Logo-Wordform-Matcha-Looks.png"><meta property="og:image:width" content="759"><meta property="og:image:height" content="104"><meta property="og:site_name" content="Matcha Looks"><meta property="og:description" content=""><meta property="og:url" content="https://matchalooks.com/"><meta property="og:type" content="website"><link rel="shortcut icon" href="https://matchalooks.com/media/website/Logo-Letterform-Brand-Matcha-Looks-Rounded-2.png" type="image/png"><link rel="preload" href="https://matchalooks.com/assets/dynamic/fonts/dmsans/dmsans.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="https://matchalooks.com/assets/dynamic/fonts/dmsans/dmsans-italic.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="https://matchalooks.com/assets/dynamic/fonts/playfairdisplay/playfairdisplay.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="https://matchalooks.com/assets/dynamic/fonts/playfairdisplay/playfairdisplay-italic.woff2" as="font" type="font/woff2" crossorigin><link rel="stylesheet" href="https://matchalooks.com/assets/css/style.css?v=a380af7582f9135d21b552ed49bf01f8"><script type="application/ld+json">{"@context":"http://schema.org","@type":"Organization","name":"Matcha Looks","logo":"https://matchalooks.com/media/website/Logo-Wordform-Matcha-Looks.png","url":"https://matchalooks.com/"}</script><noscript><style>img[loading] {
+<!DOCTYPE html><html lang="en-us"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Matcha Looks</title><meta name="generator" content="Publii Open-Source CMS for Static Site"><link rel="canonical" href="https://matchalooks.com/"><link rel="alternate" type="application/atom+xml" href="https://matchalooks.com/feed.xml" title="Matcha Looks - RSS"><link rel="alternate" type="application/json" href="https://matchalooks.com/feed.json" title="Matcha Looks - JSON"><meta property="og:title" content="Matcha Looks"><meta property="og:image" content="https://matchalooks.com/media/website/Logo-Wordform-Matcha-Looks.png"><meta property="og:image:width" content="759"><meta property="og:image:height" content="104"><meta property="og:site_name" content="Matcha Looks"><meta property="og:description" content=""><meta property="og:url" content="https://matchalooks.com/"><meta property="og:type" content="website"><link rel="shortcut icon" href="https://matchalooks.com/media/website/Logo-Letterform-Brand-Matcha-Looks-Rounded-2.png" type="image/png"><link rel="preload" href="https://matchalooks.com/assets/dynamic/fonts/dmsans/dmsans.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="https://matchalooks.com/assets/dynamic/fonts/dmsans/dmsans-italic.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="https://matchalooks.com/assets/dynamic/fonts/playfairdisplay/playfairdisplay.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="https://matchalooks.com/assets/dynamic/fonts/playfairdisplay/playfairdisplay-italic.woff2" as="font" type="font/woff2" crossorigin><link rel="stylesheet" href="https://matchalooks.com/assets/css/style.css?v=7cee7debeae6e80e91a91221ea036ad2"><script type="application/ld+json">{"@context":"http://schema.org","@type":"Organization","name":"Matcha Looks","logo":"https://matchalooks.com/media/website/Logo-Wordform-Matcha-Looks.png","url":"https://matchalooks.com/"}</script><noscript><style>img[loading] {
                     opacity: 1;
                 }</style></noscript><style>.ti{fill:none;stroke-linecap:round;stroke-linejoin:round;vertical-align:top}</style></head><body class="home-template"><script>document.addEventListener("DOMContentLoaded", function () {
 
@@ -32,19 +32,114 @@
     footer.appendChild(socials);
   }
 
+  /* =========================
+     2. NAV FILTER HOME ID
+  ========================== */
+  const nav = document.querySelector(".home-template .filter");
 
-  /* ==========================================
-     2. TOGGLE EMPTY <p>&nbsp;</p> RESPONSIVELY
+  if (nav) {
+    nav.id = "nav-filter-home";
+  }
+
+  /* =========================
+     3. POST STRUCTURE FIX (WITH SECTION TYPES)
+  ========================== */
+
+  const article = document.querySelector(".content__entry");
+  if (!article) return;
+
+  const nodes = Array.from(article.children);
+
+  let sections = [];
+  let current = [];
+
+  function flushSection() {
+    if (current.length) {
+      sections.push(current);
+      current = [];
+    }
+  }
+
+  // split by HR
+  nodes.forEach(node => {
+    if (node.tagName === "HR") {
+      flushSection();
+    } else {
+      current.push(node);
+    }
+  });
+
+  flushSection();
+
+  article.innerHTML = "";
+
+  const totalSections = sections.length;
+
+  sections.forEach((sectionNodes, index) => {
+
+    const section = document.createElement("div");
+
+    // base class
+    section.className = "post-section";
+
+    // add position-based class
+    if (index === 0) {
+      section.classList.add("post-section-start");
+    } 
+    else if (index === totalSections - 1) {
+      section.classList.add("post-section-end");
+    } 
+    else {
+      section.classList.add("post-section-two-col");
+    }
+
+    const textBlock = document.createElement("div");
+    textBlock.className = "post-section-text";
+
+    let figure = null;
+
+    sectionNodes.forEach(node => {
+
+      // capture figure (always first later)
+      if (node.tagName === "FIGURE" && !figure) {
+        figure = node;
+        return;
+      }
+
+      // preserve text order exactly
+      if (
+        node.tagName === "H1" ||
+        node.tagName === "H2" ||
+        node.tagName === "H3" ||
+        node.tagName === "P"
+      ) {
+        textBlock.appendChild(node);
+        return;
+      }
+
+      // fallback
+      textBlock.appendChild(node);
+    });
+
+    // enforce structure order
+    if (figure) section.appendChild(figure);
+    section.appendChild(textBlock);
+
+    article.appendChild(section);
+  });
+
+});
+    /* ==========================================
+     4. TOGGLE EMPTY <p>&nbsp;</p> RESPONSIVE
   =========================================== */
 
   let hiddenParagraphs = [];
 
   function handleEmptyParagraphs() {
-    const isMobile = window.innerWidth <= 640;
+    const isMobile = window.innerWidth <= 768;
     const paragraphs = document.querySelectorAll("p");
 
     if (isMobile) {
-      // hide & store reference
       hiddenParagraphs = [];
 
       paragraphs.forEach(p => {
@@ -59,7 +154,6 @@
       });
 
     } else {
-      // restore
       hiddenParagraphs.forEach(p => {
         p.style.display = "";
       });
@@ -69,6 +163,4 @@
   }
 
   handleEmptyParagraphs();
-  window.addEventListener("resize", handleEmptyParagraphs);
-
-});</script><div class="container"><header class="header" id="js-header"><a href="https://matchalooks.com/" class="logo"><img src="https://matchalooks.com/media/website/Logo-Wordform-Matcha-Looks.png" alt="Matcha Looks" width="759" height="104"></a><nav class="navbar js-navbar"><button class="navbar__toggle js-toggle" aria-label="Menu"><span class="navbar__toggle-box"><span class="navbar__toggle-inner">Menu</span></span></button><ul class="navbar__menu"><li class="active"><a href="https://matchalooks.com/" target="_self">Home</a></li><li><a href="https://matchalooks.com/shop.html" target="_self">Shop</a></li><li><a href="https://www.youtube.com/@MatchaLooks" target="_self"><svg class="ti ti-brand-youtube" width="24px" height="24px" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><g><path d="M2 8a4 4 0 0 1 4 -4h12a4 4 0 0 1 4 4v8a4 4 0 0 1 -4 4h-12a4 4 0 0 1 -4 -4v-8z"/><path d="M10 9l5 3l-5 3z"/></g></svg></a></li><li><a href="https://www.tiktok.com/@matchalooks" target="_self"><svg class="ti ti-brand-tiktok" width="24px" height="24px" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><g><path d="M21 7.917v4.034a9.948 9.948 0 0 1 -5 -1.951v4.5a6.5 6.5 0 1 1 -8 -6.326v4.326a2.5 2.5 0 1 0 4 2v-11.5h4.083a6.005 6.005 0 0 0 4.917 4.917z"/></g></svg></a></li><li><a href="https://www.instagram.com/matchalooks/" target="_self"><svg class="ti ti-brand-instagram" width="24px" height="24px" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><g><path d="M4 8a4 4 0 0 1 4 -4h8a4 4 0 0 1 4 4v8a4 4 0 0 1 -4 4h-8a4 4 0 0 1 -4 -4z"/><path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"/><path d="M16.5 7.5v.01"/></g></svg></a></li><li><a href="https://pinterest.com/matchalooks/" target="_self"><svg class="ti ti-brand-pinterest" width="24px" height="24px" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><g><path d="M8 20l4 -9"/><path d="M10.7 14c.437 1.263 1.43 2 2.55 2c2.071 0 3.75 -1.554 3.75 -4a5 5 0 1 0 -9.7 1.7"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"/></g></svg></a></li></ul></nav></header><main><section class="hero wrapper"><h1><em>Match Your Look </em><em>With Our Outfit Ideas</em></h1><p><a href="https://matchalooks.com/shop" class="button-custom">SHOP OUR AMAZON FINDS</a></p></section><nav class="filter" aria-label="Content filters"><ul class="filter__button-group" role="group"><li><button class="filter__item is-active" data-filter="*" aria-pressed="true">All</button></li></ul></nav><section class="l-col l-col--3"><article class="c-card"><a href="https://matchalooks.com/1-square-neck-top-at-amazon-6-clean-and-chic-outfit-ideas.html" class="c-card__link"><div class="c-card__header"><img src="https://matchalooks.com/media/posts/1/C1-1-P1-1-16x9-F6-SC-Square-Neck-Tee.jpg" srcset="https://matchalooks.com/media/posts/1/responsive/C1-1-P1-1-16x9-F6-SC-Square-Neck-Tee-xs.jpg 300w, https://matchalooks.com/media/posts/1/responsive/C1-1-P1-1-16x9-F6-SC-Square-Neck-Tee-sm.jpg 480w, https://matchalooks.com/media/posts/1/responsive/C1-1-P1-1-16x9-F6-SC-Square-Neck-Tee-md.jpg 768w, https://matchalooks.com/media/posts/1/responsive/C1-1-P1-1-16x9-F6-SC-Square-Neck-Tee-lg.jpg 1024w, https://matchalooks.com/media/posts/1/responsive/C1-1-P1-1-16x9-F6-SC-Square-Neck-Tee-xl.jpg 1360w, https://matchalooks.com/media/posts/1/responsive/C1-1-P1-1-16x9-F6-SC-Square-Neck-Tee-2xl.jpg 1600w, https://matchalooks.com/media/posts/1/responsive/C1-1-P1-1-16x9-F6-SC-Square-Neck-Tee-sm2.jpg 375w" sizes="(min-width: 75em) 25vw, (min-width: 56.25em) 33vw, (min-width: 37.5em) 50vw, 100vw" loading="lazy" height="1080" width="1920" alt=""></div><div class="c-card__body"><div class="c-card__text"><h2>1 Square Neck Top at Amazon, 6 Clean &amp; Chic Outfit Ideas</h2><time datetime="2026-05-27T02:26">May 27, 2026</time></div></div></a></article></section></main><footer class="footer"><div class="footer__copyright">Powered by Publii</div></footer></div><script defer="defer" src="https://matchalooks.com/assets/js/scripts.min.js?v=1762f7ab131e33a4eb8fb224822de245"></script><script>window.publiiThemeMenuConfig={mobileMenuMode:'sidebar',animationSpeed:300,submenuWidth: 'auto',doubleClickTime:500,mobileMenuExpandableSubmenus:true,relatedContainerForOverlayMenuSelector:'.navbar'};</script><script defer="defer" src="https://matchalooks.com/assets/js/isotope.pkgd.min.js?v=2afcff647ed260006faa71c8e779e8d4"></script><script>window.addEventListener("DOMContentLoaded",function(){var j=new Isotope(".l-col",{itemSelector:".c-card",percentPosition:true,layoutMode:"masonry",transitionDuration:"0.6s",masonry:{columnWidth:".c-card"}});var g=document.querySelector(".filter__button-group");if(g){g.addEventListener("click",function(i){if(!matchesSelector(i.target,"button")){return}var k=i.target.getAttribute("data-filter");j.arrange({filter:k})});var b=document.querySelectorAll(".filter__button-group");for(var c=0,e=b.length;c<e;c++){var d=b[c];h(d)}function h(i){i.addEventListener("click",function(k){if(!matchesSelector(k.target,"button")){return}var m=i.querySelector(".is-active");if(m){m.classList.remove("is-active");m.setAttribute("aria-pressed","false")}k.target.classList.add("is-active");k.target.setAttribute("aria-pressed","true")})}}var a=document.querySelector(".l-col");var f=document.querySelectorAll(".c-card");a.classList.add("is-visible");j.revealItemElements(f)});</script><script>/*<![CDATA[*/var images=document.querySelectorAll("img[loading]");for(var i=0;i<images.length;i++){if(images[i].complete){images[i].classList.add("is-loaded")}else{images[i].addEventListener("load",function(){this.classList.add("is-loaded")},false)}};/*]]>*/</script></body></html>
+  window.addEventListener("resize", handleEmptyParagraphs);</script><div class="container"><header class="header" id="js-header"><a href="https://matchalooks.com/" class="logo"><img src="https://matchalooks.com/media/website/Logo-Wordform-Matcha-Looks.png" alt="Matcha Looks" width="759" height="104"></a><nav class="navbar js-navbar"><button class="navbar__toggle js-toggle" aria-label="Menu"><span class="navbar__toggle-box"><span class="navbar__toggle-inner">Menu</span></span></button><ul class="navbar__menu"><li class="active"><a href="https://matchalooks.com/" target="_self">Home</a></li><li><a href="https://matchalooks.com/shop.html" target="_self">Shop</a></li><li><a href="https://www.youtube.com/@MatchaLooks" target="_self"><svg class="ti ti-brand-youtube" width="24px" height="24px" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><g><path d="M2 8a4 4 0 0 1 4 -4h12a4 4 0 0 1 4 4v8a4 4 0 0 1 -4 4h-12a4 4 0 0 1 -4 -4v-8z"/><path d="M10 9l5 3l-5 3z"/></g></svg></a></li><li><a href="https://www.tiktok.com/@matchalooks" target="_self"><svg class="ti ti-brand-tiktok" width="24px" height="24px" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><g><path d="M21 7.917v4.034a9.948 9.948 0 0 1 -5 -1.951v4.5a6.5 6.5 0 1 1 -8 -6.326v4.326a2.5 2.5 0 1 0 4 2v-11.5h4.083a6.005 6.005 0 0 0 4.917 4.917z"/></g></svg></a></li><li><a href="https://www.instagram.com/matchalooks/" target="_self"><svg class="ti ti-brand-instagram" width="24px" height="24px" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><g><path d="M4 8a4 4 0 0 1 4 -4h8a4 4 0 0 1 4 4v8a4 4 0 0 1 -4 4h-8a4 4 0 0 1 -4 -4z"/><path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"/><path d="M16.5 7.5v.01"/></g></svg></a></li><li><a href="https://pinterest.com/matchalooks/" target="_self"><svg class="ti ti-brand-pinterest" width="24px" height="24px" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><g><path d="M8 20l4 -9"/><path d="M10.7 14c.437 1.263 1.43 2 2.55 2c2.071 0 3.75 -1.554 3.75 -4a5 5 0 1 0 -9.7 1.7"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"/></g></svg></a></li></ul></nav></header><main><section class="hero wrapper"><h1><em>Match Your Look </em><em>With Our Outfit Ideas</em></h1><div class="custom-btn-container"><p><a href="https://matchalooks.com/shop" class="custom-btn custom-btn-pri" title="Shop Our Amazon Finds">Shop Our Amazon Finds</a></p><p><a href="#nav-filter-home" class="custom-btn custom-btn-sec" title="Explore Outfit Ideas">Explore Outfit Ideas</a></p></div></section><nav class="filter" aria-label="Content filters"><ul class="filter__button-group" role="group"><li><button class="filter__item is-active" data-filter="*" aria-pressed="true">All</button></li></ul></nav><section class="l-col l-col--3"><article class="c-card"><a href="https://matchalooks.com/1-square-neck-top-at-amazon-6-clean-and-chic-outfit-ideas.html" class="c-card__link"><div class="c-card__header"><img src="https://matchalooks.com/media/posts/1/C1-1-P1-1-16x9-F6-SC-Square-Neck-Tee.jpg" srcset="https://matchalooks.com/media/posts/1/responsive/C1-1-P1-1-16x9-F6-SC-Square-Neck-Tee-xs.jpg 300w, https://matchalooks.com/media/posts/1/responsive/C1-1-P1-1-16x9-F6-SC-Square-Neck-Tee-sm.jpg 480w, https://matchalooks.com/media/posts/1/responsive/C1-1-P1-1-16x9-F6-SC-Square-Neck-Tee-md.jpg 768w, https://matchalooks.com/media/posts/1/responsive/C1-1-P1-1-16x9-F6-SC-Square-Neck-Tee-lg.jpg 1024w, https://matchalooks.com/media/posts/1/responsive/C1-1-P1-1-16x9-F6-SC-Square-Neck-Tee-xl.jpg 1360w, https://matchalooks.com/media/posts/1/responsive/C1-1-P1-1-16x9-F6-SC-Square-Neck-Tee-2xl.jpg 1600w, https://matchalooks.com/media/posts/1/responsive/C1-1-P1-1-16x9-F6-SC-Square-Neck-Tee-sm2.jpg 375w" sizes="(min-width: 75em) 25vw, (min-width: 56.25em) 33vw, (min-width: 37.5em) 50vw, 100vw" loading="lazy" height="1080" width="1920" alt=""></div><div class="c-card__body"><div class="c-card__text"><h2>1 Square Neck Top at Amazon, 6 Clean &amp; Chic Outfit Ideas</h2></div></div></a></article></section></main><footer class="footer"><div class="footer__copyright">Powered by Publii</div></footer></div><script defer="defer" src="https://matchalooks.com/assets/js/scripts.min.js?v=1762f7ab131e33a4eb8fb224822de245"></script><script>window.publiiThemeMenuConfig={mobileMenuMode:'sidebar',animationSpeed:300,submenuWidth: 'auto',doubleClickTime:500,mobileMenuExpandableSubmenus:true,relatedContainerForOverlayMenuSelector:'.navbar'};</script><script defer="defer" src="https://matchalooks.com/assets/js/isotope.pkgd.min.js?v=2afcff647ed260006faa71c8e779e8d4"></script><script>window.addEventListener("DOMContentLoaded",function(){var j=new Isotope(".l-col",{itemSelector:".c-card",percentPosition:true,layoutMode:"masonry",transitionDuration:"0.6s",masonry:{columnWidth:".c-card"}});var g=document.querySelector(".filter__button-group");if(g){g.addEventListener("click",function(i){if(!matchesSelector(i.target,"button")){return}var k=i.target.getAttribute("data-filter");j.arrange({filter:k})});var b=document.querySelectorAll(".filter__button-group");for(var c=0,e=b.length;c<e;c++){var d=b[c];h(d)}function h(i){i.addEventListener("click",function(k){if(!matchesSelector(k.target,"button")){return}var m=i.querySelector(".is-active");if(m){m.classList.remove("is-active");m.setAttribute("aria-pressed","false")}k.target.classList.add("is-active");k.target.setAttribute("aria-pressed","true")})}}var a=document.querySelector(".l-col");var f=document.querySelectorAll(".c-card");a.classList.add("is-visible");j.revealItemElements(f)});</script><script>/*<![CDATA[*/var images=document.querySelectorAll("img[loading]");for(var i=0;i<images.length;i++){if(images[i].complete){images[i].classList.add("is-loaded")}else{images[i].addEventListener("load",function(){this.classList.add("is-loaded")},false)}};/*]]>*/</script></body></html>
