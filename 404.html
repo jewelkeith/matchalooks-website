@@ -1,15 +1,56 @@
-<!DOCTYPE html><html lang="en-us"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Error 404 - Matcha Looks</title><meta name="robots" content="noindex, follow"><meta name="generator" content="Publii Open-Source CMS for Static Site"><link rel="alternate" type="application/atom+xml" href="https://matchalooks.com/feed.xml" title="Matcha Looks - RSS"><link rel="alternate" type="application/json" href="https://matchalooks.com/feed.json" title="Matcha Looks - JSON"><meta property="og:title" content="Matcha Looks"><meta property="og:image" content="https://matchalooks.com/media/website/Logo-Wordform-Matcha-Looks.png"><meta property="og:image:width" content="759"><meta property="og:image:height" content="104"><meta property="og:site_name" content="Matcha Looks"><meta property="og:description" content="Discover Amazon outfit ideas with Matcha Looks. Clean, chic, aesthetic styling inspiration for casual, work, brunch, travel, seasonal fashion and date nights."><meta property="og:url" content="https://matchalooks.com/"><meta property="og:type" content="website"><link rel="shortcut icon" href="https://matchalooks.com/media/website/Logo-Letterform-Favicon-Matcha-Looks.png" type="image/png"><link rel="preload" href="https://matchalooks.com/assets/dynamic/fonts/dmsans/dmsans.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="https://matchalooks.com/assets/dynamic/fonts/dmsans/dmsans-italic.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="https://matchalooks.com/assets/dynamic/fonts/playfairdisplay/playfairdisplay.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="https://matchalooks.com/assets/dynamic/fonts/playfairdisplay/playfairdisplay-italic.woff2" as="font" type="font/woff2" crossorigin><link rel="stylesheet" href="https://matchalooks.com/assets/css/style.css?v=c0bfbf3b2003f78f6323352e33867191"><script type="application/ld+json">{"@context":"http://schema.org","@type":"Organization","name":"Matcha Looks","logo":"https://matchalooks.com/media/website/Logo-Wordform-Matcha-Looks.png","url":"https://matchalooks.com/"}</script><noscript><style>img[loading] {
+<!DOCTYPE html><html lang="en-us"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Error 404 - Matcha Looks</title><meta name="robots" content="noindex, follow"><meta name="generator" content="Publii Open-Source CMS for Static Site"><link rel="alternate" type="application/atom+xml" href="https://matchalooks.com/feed.xml" title="Matcha Looks - RSS"><link rel="alternate" type="application/json" href="https://matchalooks.com/feed.json" title="Matcha Looks - JSON"><meta property="og:title" content="Matcha Looks"><meta property="og:image" content="https://matchalooks.com/media/website/Logo-Wordform-Matcha-Looks.png"><meta property="og:image:width" content="759"><meta property="og:image:height" content="104"><meta property="og:site_name" content="Matcha Looks"><meta property="og:description" content="Discover Amazon outfit ideas with Matcha Looks. Clean, chic, aesthetic styling inspiration for casual, work, brunch, travel, seasonal fashion and date nights."><meta property="og:url" content="https://matchalooks.com/"><meta property="og:type" content="website"><link rel="shortcut icon" href="https://matchalooks.com/media/website/Logo-Letterform-Favicon-Matcha-Looks.png" type="image/png"><link rel="preload" href="https://matchalooks.com/assets/dynamic/fonts/dmsans/dmsans.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="https://matchalooks.com/assets/dynamic/fonts/dmsans/dmsans-italic.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="https://matchalooks.com/assets/dynamic/fonts/playfairdisplay/playfairdisplay.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="https://matchalooks.com/assets/dynamic/fonts/playfairdisplay/playfairdisplay-italic.woff2" as="font" type="font/woff2" crossorigin><link rel="stylesheet" href="https://matchalooks.com/assets/css/style.css?v=f4739d89d5554fc6844cd5a1f5a0e4a7"><script type="application/ld+json">{"@context":"http://schema.org","@type":"Organization","name":"Matcha Looks","logo":"https://matchalooks.com/media/website/Logo-Wordform-Matcha-Looks.png","url":"https://matchalooks.com/"}</script><noscript><style>img[loading] {
                     opacity: 1;
                 }</style></noscript><meta name="p:domain_verify" content="813c830b22e9a2811f81bc1af433ab43"><style>.ti{fill:none;stroke-linecap:round;stroke-linejoin:round;vertical-align:top}</style></head><body class="error-template"><script>document.addEventListener("DOMContentLoaded", function () {
     /* =========================
-     FOOTER SOCIAL ICONS
+   MOVE SOCIAL LINKS (DESKTOP + MOBILE)
+========================== */
+
+    document.querySelectorAll(".navbar__menu").forEach((navbarMenu) => {
+      // Prevent duplicate processing
+      if (navbarMenu.querySelector(".custom-nav-socials")) return;
+
+      const socialDomains = [
+        "youtube.com",
+        "tiktok.com",
+        "instagram.com",
+        "pinterest.com",
+      ];
+
+      const items = Array.from(navbarMenu.children);
+
+      const socialItems = items.filter((li) => {
+        const link = li.querySelector("a");
+
+        if (!link) return false;
+
+        return socialDomains.some((domain) => link.href.includes(domain));
+      });
+
+      if (!socialItems.length) return;
+
+      const socialWrapper = document.createElement("li");
+      socialWrapper.className = "custom-nav-socials-wrapper";
+
+      const socialList = document.createElement("ul");
+      socialList.className = "custom-nav-socials-list";
+
+      socialItems.forEach((item) => {
+        socialList.appendChild(item);
+      });
+
+      socialWrapper.appendChild(socialList);
+      navbarMenu.appendChild(socialWrapper);
+    });
+
+    /* =========================
+     FOOTER SOCIAL LINKS
   ========================== */
 
     const footer = document.querySelector(".footer");
 
     if (footer) {
       const socials = document.createElement("div");
-      socials.className = "matchalooks-socials";
+      socials.className = "custom-footer-socials";
 
       socials.innerHTML = `
       <a data-social="social-youtube" aria-label="YouTube">
@@ -33,6 +74,60 @@
     }
 
     /* =========================
+   FOOTER PAGE LINKS + ORDER
+========================== */
+
+    if (footer) {
+      const copyright = footer.querySelector(".footer__copyright");
+      const socials = footer.querySelector(".custom-footer-socials");
+
+      /* Create page links */
+
+      const pageLinks = document.createElement("div");
+
+      pageLinks.className = "custom-footer-pages";
+
+      pageLinks.innerHTML = `
+    <a data-general="page-home-nav-posts">Outfits</a>
+    <a data-general="page-shop">Shop</a>
+    <a data-general="page-about">About</a>
+    <a data-general="page-contact">Contact</a>
+    <a data-general="page-privacy">Privacy</a>
+    <a data-general="page-disclosure">Disclosure</a>
+  `;
+
+      /* Create wrapper */
+
+      const wrapper = document.createElement("div");
+
+      wrapper.className = "custom-footer-wrapper";
+
+      /* Add page links */
+
+      wrapper.appendChild(pageLinks);
+
+      /* Move socials into wrapper */
+
+      if (socials) {
+        wrapper.appendChild(socials);
+      }
+
+      /* Add wrapper before copyright */
+
+      if (copyright) {
+        footer.insertBefore(wrapper, copyright);
+      } else {
+        footer.appendChild(wrapper);
+      }
+
+      /* Ensure copyright is always last */
+
+      if (copyright) {
+        footer.appendChild(copyright);
+      }
+    }
+
+    /* =========================
      HOME NAV POSTS ID
   ========================== */
 
@@ -50,6 +145,10 @@
       "page-home": "https://matchalooks.com/",
       "page-home-nav-posts": "https://matchalooks.com/#nav-posts",
       "page-shop": "https://matchalooks.com/shop",
+      "page-about": "https://matchalooks.com/about",
+      "page-contact": "https://matchalooks.com/contact",
+      "page-privacy": "https://matchalooks.com/privacy",
+      "page-disclosure": "https://matchalooks.com/disclosure",
     };
 
     const socialLinks = {
@@ -115,10 +214,6 @@
     });
 
     /* =========================
-   SHOP PAGE AFFILIATE LINKS
-========================== */
-
-    /* =========================
    GALLERY AFFILIATE BUTTONS
 ========================== */
 
@@ -149,7 +244,7 @@
     };
 
     document
-      .querySelectorAll(".custom-shop-gallery figure")
+      .querySelectorAll(".custom-gallery-lightbox figure")
       .forEach((figure) => {
         const caption = figure.querySelector("figcaption");
 
@@ -163,7 +258,12 @@
 
         /* Create wrapper */
         const wrapper = document.createElement("div");
-        wrapper.className = "custom-shop-figure-wrapper";
+
+        wrapper.className = "custom-figure-wrapper-lightbox";
+
+        if (figure.closest(".custom-gallery-normal")) {
+          wrapper.classList.add("custom-figure-wrapper-normal");
+        }
 
         /* Insert wrapper before figure */
         figure.parentNode.insertBefore(wrapper, figure);
@@ -178,11 +278,54 @@
         button.target = "_blank";
         button.rel = "nofollow sponsored noopener noreferrer";
 
-        button.className = "custom-btn custom-btn-pri";
+        button.className = figure.closest(".custom-gallery-normal")
+          ? "custom-btn custom-btn-ter"
+          : "custom-btn custom-btn-pri";
         button.textContent = "Shop on Amazon";
 
         /* Add button below figure */
         wrapper.appendChild(button);
+      });
+
+    /* =========================
+   PRODUCT CAROUSEL
+========================== */
+
+    document
+      .querySelectorAll(".custom-gallery-lightbox.custom-gallery-normal")
+      .forEach((gallery) => {
+        const prevBtn = gallery
+          .closest(".custom-gallery-carousel")
+          ?.querySelector(".custom-gallery-nav-prev");
+
+        const nextBtn = gallery
+          .closest(".custom-gallery-carousel")
+          ?.querySelector(".custom-gallery-nav-next");
+
+        const item = gallery.querySelector(".custom-figure-wrapper-normal");
+        const scrollAmount = item?.offsetWidth || 320;
+
+        prevBtn?.addEventListener("click", () => {
+          gallery.scrollBy({
+            left: -scrollAmount,
+            behavior: "smooth",
+          });
+        });
+
+        nextBtn?.addEventListener("click", () => {
+          gallery.scrollBy({
+            left: scrollAmount,
+            behavior: "smooth",
+          });
+        });
+      });
+
+    document
+      .querySelectorAll(".custom-gallery-lightbox.custom-gallery-normal")
+      .forEach((gallery) => {
+        requestAnimationFrame(() => {
+          gallery.scrollLeft = (gallery.scrollWidth - gallery.clientWidth) / 2;
+        });
       });
 
     /* =========================
@@ -361,4 +504,4 @@
     handleEmptyParagraphs();
 
     window.addEventListener("resize", handleEmptyParagraphs);
-  });</script><div class="container"><header class="header" id="js-header"><a href="https://matchalooks.com/" class="logo"><img src="https://matchalooks.com/media/website/Logo-Wordform-Matcha-Looks.png" alt="Matcha Looks" width="759" height="104"></a><nav class="navbar js-navbar"><button class="navbar__toggle js-toggle" aria-label="Menu"><span class="navbar__toggle-box"><span class="navbar__toggle-inner">Menu</span></span></button><ul class="navbar__menu"><li><a href="https://matchalooks.com/" target="_self">Home</a></li><li><a href="https://matchalooks.com/shop.html" target="_self">Shop</a></li><li><a href="https://www.youtube.com/@MatchaLooks" target="_self"><svg class="ti ti-brand-youtube" width="24px" height="24px" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><g><path d="M2 8a4 4 0 0 1 4 -4h12a4 4 0 0 1 4 4v8a4 4 0 0 1 -4 4h-12a4 4 0 0 1 -4 -4v-8z"/><path d="M10 9l5 3l-5 3z"/></g></svg></a></li><li><a href="https://www.tiktok.com/@matchalooks" target="_self"><svg class="ti ti-brand-tiktok" width="24px" height="24px" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><g><path d="M21 7.917v4.034a9.948 9.948 0 0 1 -5 -1.951v4.5a6.5 6.5 0 1 1 -8 -6.326v4.326a2.5 2.5 0 1 0 4 2v-11.5h4.083a6.005 6.005 0 0 0 4.917 4.917z"/></g></svg></a></li><li><a href="https://www.instagram.com/matchalooks/" target="_self"><svg class="ti ti-brand-instagram" width="24px" height="24px" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><g><path d="M4 8a4 4 0 0 1 4 -4h8a4 4 0 0 1 4 4v8a4 4 0 0 1 -4 4h-8a4 4 0 0 1 -4 -4z"/><path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"/><path d="M16.5 7.5v.01"/></g></svg></a></li><li><a href="https://pinterest.com/matchalooks/" target="_self"><svg class="ti ti-brand-pinterest" width="24px" height="24px" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><g><path d="M8 20l4 -9"/><path d="M10.7 14c.437 1.263 1.43 2 2.55 2c2.071 0 3.75 -1.554 3.75 -4a5 5 0 1 0 -9.7 1.7"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"/></g></svg></a></li></ul></nav></header><main class="page page--search"><article class="post align-center wrapper"><header class="hero"><h1>404</h1></header><p>The page you were looking for appears to have been moved, deleted or does not exist. You could go back to where you were or head straight to our home page.</p><p><a href="https://matchalooks.com/" class="btn hero__cta btn--icon"><span>← Go home</span></a></p></article></main><footer class="footer"><div class="footer__copyright">Powered by Publii</div></footer></div><script defer="defer" src="https://matchalooks.com/assets/js/scripts.min.js?v=1762f7ab131e33a4eb8fb224822de245"></script><script>window.publiiThemeMenuConfig={mobileMenuMode:'sidebar',animationSpeed:300,submenuWidth: 'auto',doubleClickTime:500,mobileMenuExpandableSubmenus:true,relatedContainerForOverlayMenuSelector:'.navbar'};</script><script>/*<![CDATA[*/var images=document.querySelectorAll("img[loading]");for(var i=0;i<images.length;i++){if(images[i].complete){images[i].classList.add("is-loaded")}else{images[i].addEventListener("load",function(){this.classList.add("is-loaded")},false)}};/*]]>*/</script></body></html>
+  });</script><div class="container"><header class="header" id="js-header"><a href="https://matchalooks.com/" class="logo"><img src="https://matchalooks.com/media/website/Logo-Wordform-Matcha-Looks.png" alt="Matcha Looks" width="759" height="104"></a><nav class="navbar js-navbar"><button class="navbar__toggle js-toggle" aria-label="Menu"><span class="navbar__toggle-box"><span class="navbar__toggle-inner">Menu</span></span></button><ul class="navbar__menu"><li><a href="https://matchalooks.com/" title="Home" target="_self">Home</a></li><li><a href="https://matchalooks.com/index.html#nav-posts" title="Outfits" target="_self">Outfits</a></li><li><a href="https://matchalooks.com/shop/" title="Shop" target="_self">Shop</a></li><li><a href="https://matchalooks.com/about/" title="About" target="_self">About</a></li><li><a href="https://matchalooks.com/contact/" title="Contact" target="_self">Contact</a></li><li><a href="https://www.youtube.com/@MatchaLooks" target="_self"><svg class="ti ti-brand-youtube" width="24px" height="24px" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><g><path d="M2 8a4 4 0 0 1 4 -4h12a4 4 0 0 1 4 4v8a4 4 0 0 1 -4 4h-12a4 4 0 0 1 -4 -4v-8z"/><path d="M10 9l5 3l-5 3z"/></g></svg></a></li><li><a href="https://www.tiktok.com/@matchalooks" target="_self"><svg class="ti ti-brand-tiktok" width="24px" height="24px" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><g><path d="M21 7.917v4.034a9.948 9.948 0 0 1 -5 -1.951v4.5a6.5 6.5 0 1 1 -8 -6.326v4.326a2.5 2.5 0 1 0 4 2v-11.5h4.083a6.005 6.005 0 0 0 4.917 4.917z"/></g></svg></a></li><li><a href="https://www.instagram.com/matchalooks/" target="_self"><svg class="ti ti-brand-instagram" width="24px" height="24px" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><g><path d="M4 8a4 4 0 0 1 4 -4h8a4 4 0 0 1 4 4v8a4 4 0 0 1 -4 4h-8a4 4 0 0 1 -4 -4z"/><path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"/><path d="M16.5 7.5v.01"/></g></svg></a></li><li><a href="https://pinterest.com/matchalooks/" target="_self"><svg class="ti ti-brand-pinterest" width="24px" height="24px" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><g><path d="M8 20l4 -9"/><path d="M10.7 14c.437 1.263 1.43 2 2.55 2c2.071 0 3.75 -1.554 3.75 -4a5 5 0 1 0 -9.7 1.7"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"/></g></svg></a></li></ul></nav></header><main class="page page--search"><article class="post align-center wrapper"><header class="hero"><h1>404</h1></header><p>The page you were looking for appears to have been moved, deleted or does not exist. You could go back to where you were or head straight to our home page.</p><p><a href="https://matchalooks.com/" class="btn hero__cta btn--icon"><span>← Go home</span></a></p></article></main><footer class="footer"><div class="footer__copyright">Powered by Publii</div></footer></div><script defer="defer" src="https://matchalooks.com/assets/js/scripts.min.js?v=1762f7ab131e33a4eb8fb224822de245"></script><script>window.publiiThemeMenuConfig={mobileMenuMode:'sidebar',animationSpeed:300,submenuWidth: 'auto',doubleClickTime:500,mobileMenuExpandableSubmenus:true,relatedContainerForOverlayMenuSelector:'.navbar'};</script><script>/*<![CDATA[*/var images=document.querySelectorAll("img[loading]");for(var i=0;i<images.length;i++){if(images[i].complete){images[i].classList.add("is-loaded")}else{images[i].addEventListener("load",function(){this.classList.add("is-loaded")},false)}};/*]]>*/</script></body></html>
