@@ -232,7 +232,17 @@
 
         // Append posts
         newPosts.forEach((post) => {
-          container.appendChild(post.cloneNode(true));
+          const el = post.cloneNode(true);
+
+          // 🔥 FORCE IMAGE LOAD (important)
+          el.querySelectorAll("img").forEach((img) => {
+            const src = img.getAttribute("src");
+            if (src) {
+              img.src = src;
+            }
+          });
+
+          container.appendChild(el);
         });
 
         // 🔥 IMPORTANT: force layout recalculation
