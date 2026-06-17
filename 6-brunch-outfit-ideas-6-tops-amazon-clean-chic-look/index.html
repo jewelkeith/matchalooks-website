@@ -236,10 +236,9 @@
 
           // 🔥 FORCE IMAGE LOAD (important)
           el.querySelectorAll("img").forEach((img) => {
-            const src = img.getAttribute("src");
-            if (src) {
-              img.src = src;
-            }
+            const src = img.src;
+            img.src = "";
+            img.src = src;
           });
 
           container.appendChild(el);
