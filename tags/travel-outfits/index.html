@@ -206,7 +206,6 @@
 
     let nextUrl = pagination?.querySelector('a[rel="next"]')?.href || null;
 
-    // Create button only if there is next page
     if (!nextUrl) return;
 
     const loadMoreBtn = document.createElement("button");
@@ -242,10 +241,17 @@
           return;
         }
 
+        // Append posts
         newPosts.forEach((post) => {
-          container.insertAdjacentHTML("beforeend", post.outerHTML);
+          container.appendChild(post.cloneNode(true));
         });
 
+        // 🔥 IMPORTANT: force layout recalculation
+        requestAnimationFrame(() => {
+          window.dispatchEvent(new Event("resize"));
+        });
+
+        // Update next page URL
         nextUrl = doc.querySelector('.pagination a[rel="next"]')?.href || null;
 
         if (!nextUrl) {
