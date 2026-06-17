@@ -18,6 +18,7 @@
     initFooter();
 
     initHomeNav();
+    initPagination();
     initBackToTop();
 
     initPostStructure();
@@ -195,6 +196,72 @@
     const nav = document.querySelector(".home-template .filter");
     if (!nav) return;
     nav.id = "nav-posts";
+  }
+
+  function initPagination() {
+    const container = document.querySelector("section.l-col");
+    const pagination = document.querySelector(".pagination");
+
+    if (!container) return;
+
+    let nextUrl = pagination?.querySelector('a[rel="next"]')?.href || null;
+
+    // Create button only if there is next page
+    if (!nextUrl) return;
+
+    const loadMoreBtn = document.createElement("button");
+    loadMoreBtn.className = "custom-btn-load-more";
+    loadMoreBtn.type = "button";
+    loadMoreBtn.textContent = "Load More";
+
+    pagination.insertAdjacentElement("afterend", loadMoreBtn);
+    pagination.remove();
+
+    let isLoading = false;
+
+    loadMoreBtn.addEventListener("click", async () => {
+      if (isLoading || !nextUrl) return;
+
+      isLoading = true;
+
+      const originalText = loadMoreBtn.textContent;
+      loadMoreBtn.textContent = "Loading...";
+      loadMoreBtn.disabled = true;
+
+      try {
+        const response = await fetch(nextUrl);
+        if (!response.ok) throw new Error("Fetch failed");
+
+        const html = await response.text();
+        const doc = new DOMParser().parseFromString(html, "text/html");
+
+        const newPosts = doc.querySelectorAll("section.l-col article.c-card");
+
+        if (!newPosts.length) {
+          loadMoreBtn.remove();
+          return;
+        }
+
+        newPosts.forEach((post) => {
+          container.insertAdjacentHTML("beforeend", post.outerHTML);
+        });
+
+        nextUrl = doc.querySelector('.pagination a[rel="next"]')?.href || null;
+
+        if (!nextUrl) {
+          loadMoreBtn.remove();
+        } else {
+          loadMoreBtn.textContent = originalText;
+          loadMoreBtn.disabled = false;
+        }
+      } catch (err) {
+        console.error("Load More failed:", err);
+        loadMoreBtn.textContent = "Try Again";
+        loadMoreBtn.disabled = false;
+      } finally {
+        isLoading = false;
+      }
+    });
   }
 
   function initBackToTop() {
